@@ -16,8 +16,5 @@ class Reservation(models.Model):
     check_out = models.DateField()
     rental = models.ForeignKey(Rental,on_delete=models.CASCADE)
     previous_reservation_id = models.IntegerField()
-    
-
-
 
 
