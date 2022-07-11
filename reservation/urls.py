@@ -3,6 +3,6 @@ from .views import RentalList
 
 urlpatterns = [
 
-path("rental", RentalList.as_view(), name="rental_list"),
+path("rental", RentalList.as_view(), name="rental_list_create"),
 
 ]
