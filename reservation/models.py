@@ -1,8 +1,9 @@
 from pyexpat import model
+from telnetlib import STATUS
 from django.db import models
 
 from reservation.utils import validate_reservation_date
-from rest_framework import exceptions
+from rest_framework import serializers
 
 
 
@@ -12,16 +13,17 @@ class Rental(models.Model):
     def __str___(self):
             return self.name
 
-
-
 class Reservation(models.Model):
     check_in = models.DateField()
     check_out = models.DateField()
     rental = models.ForeignKey(Rental,on_delete=models.CASCADE, related_name='reservation')
-    previous_reservation_id = models.IntegerField(null=True)
+    previous_reservation_id = models.IntegerField(null=True,blank=True)
 
-    
-    def create_reservation(check_reservation,checkout,rental,checkin):
+    def __str___(self):
+            return self.check_in
+
+    @classmethod
+    def create_reservation(cls,check_reservation,checkout,rental,checkin):
         if check_reservation is None:
             reserve = Reservation.objects.create(
                 check_in=checkin, check_out=checkout, rental=rental
@@ -37,4 +39,4 @@ class Reservation(models.Model):
                 reserve.save()
                 return reserve
             else:
-                raise exceptions.APIException("data already exists")
+                raise serializers.ValidationError("data already exists")
