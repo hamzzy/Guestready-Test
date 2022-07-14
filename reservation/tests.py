@@ -35,7 +35,7 @@ class RentalApiTest(APITestCase):
             "name": "rental-4"
         }
 
-        res = self.client.post(get_rental_url, payload,format="json")
+        res = self.client.post(get_rental_url, payload, format="json")
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         self.assertEqual(res.data['name'], payload['name'])
@@ -43,7 +43,7 @@ class RentalApiTest(APITestCase):
     def test_validate_create(self):
         payload = {}
 
-        res = self.client.post(get_rental_url, payload,format="json")
+        res = self.client.post(get_rental_url, payload, format="json")
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(res.json()["name"][0], "This field is required.")
 
@@ -82,7 +82,7 @@ class ReservationApiTest(APITestCase):
     def test_validate_create(self):
         payload = {}
 
-        res = self.client.post(get_reservation_url, payload,format="json")
+        res = self.client.post(get_reservation_url, payload, format="json")
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
         for n in res.json():
             self.assertEqual(res.json()[n][0], "This field is required.")
@@ -92,11 +92,11 @@ class ReservationApiTest(APITestCase):
             "check_in": "2022-01-03",
             "check_out": "2022-02-11",
             "rental": {
-                "name":"rental-1"
+                "name": "rental-1"
             }
         }
 
-        res = self.client.post(get_reservation_url, payload,format="json")
+        res = self.client.post(get_reservation_url, payload, format="json")
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         # self.assertDictEqual(res.data, payload)
 
@@ -105,13 +105,13 @@ class ReservationApiTest(APITestCase):
             "check_in": "2022-01-03",
             "check_out": "2022-02-11",
             "rental": {
-                "name":"rental-1"
+                "name": "rental-1"
             }
         }
 
-        res = self.client.post(get_reservation_url, payload,format='json')
+        res = self.client.post(get_reservation_url, payload, format='json')
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-        res2 = self.client.post(get_reservation_url, payload,format="json")
+        res2 = self.client.post(get_reservation_url, payload, format="json")
         self.assertEqual(res2.status_code,
                          status.HTTP_400_BAD_REQUEST)
         self.assertEqual(res2.json()[0], "data already exists")
@@ -124,20 +124,20 @@ class ReservationApiTest(APITestCase):
             "check_in": "2022-01-13",
             "check_out": "2022-01-13",
             "rental":  {
-        "name": "rental-1"
-    }
-}
+                "name": "rental-1"
+            }
+        }
         payload2 = {
             "check_in": "2022-01-20",
             "check_out": "2022-02-10",
             "rental":  {
-        "name": "rental-1"
-    }
-}
-        
-        res = self.client.post(get_reservation_url, payload,format="json")
+                "name": "rental-1"
+            }
+        }
+
+        res = self.client.post(get_reservation_url, payload, format="json")
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-        res2 = self.client.post(get_reservation_url, payload2,format="json")
+        res2 = self.client.post(get_reservation_url, payload2, format="json")
         self.assertEqual(res2.status_code, status.HTTP_201_CREATED)
 
     def test_create_multiple_reservation_with_different_payload_for_previous_reservatio(self):
@@ -147,18 +147,18 @@ class ReservationApiTest(APITestCase):
             "check_in": "2022-01-13",
             "check_out": "2022-01-13",
             "rental":  {
-        "name": "rental-1"
-    }
+                "name": "rental-1"
+            }
 
 
-}
+        }
         payload2 = {
             "check_in": "2022-01-20",
             "check_out": "2022-02-10",
             "rental":  {
-        "name": "rental-1"
-    }
-}
+                "name": "rental-1"
+            }
+        }
         payload3 = {
             "check_in": "2022-02-20",
             "check_out": "2022-03-10",
@@ -166,29 +166,29 @@ class ReservationApiTest(APITestCase):
                 "name": "rental-1"
             }
         }
-        res = self.client.post(get_reservation_url, payload,format="json")
+        res = self.client.post(get_reservation_url, payload, format="json")
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-        res2 = self.client.post(get_reservation_url, payload2,format="json")
+        res2 = self.client.post(get_reservation_url, payload2, format="json")
         self.assertEqual(res2.status_code, status.HTTP_201_CREATED)
-        res3 = self.client.post(get_reservation_url, payload3,format="json")
+        res3 = self.client.post(get_reservation_url, payload3, format="json")
         self.assertEqual(res3.status_code, status.HTTP_201_CREATED)
 
         payload4 = {
             "check_in": "2022-01-02",
             "check_out": "2022-01-20",
             "rental":  {
-        "name": "rental-2"
-}
+                "name": "rental-2"
+            }
         }
         payload5 = {
             "check_in": "2022-01-20",
             "check_out": "2022-02-11",
             "rental":  {
-        "name": "rental-2"
-    }
+                "name": "rental-2"
+            }
 
         }
-        res4 = self.client.post(get_reservation_url, payload4,format="json")
+        res4 = self.client.post(get_reservation_url, payload4, format="json")
         self.assertEqual(res4.status_code, status.HTTP_201_CREATED)
-        res5 = self.client.post(get_reservation_url, payload5,format="json")
+        res5 = self.client.post(get_reservation_url, payload5, format="json")
         self.assertEqual(res5.status_code, status.HTTP_201_CREATED)
