@@ -1,4 +1,4 @@
-# A Technical Test for guest Ready
+# A  guest Ready web api service
 
 
 
